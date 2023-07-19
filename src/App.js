@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+// Importing Homepage components
+import LoginContainer from './components/homepage/LoginContainer';
+import RegisterContainer from './components/homepage/RegisterContainer';
+// Importing Dashboard components
+import LiveRequests from './components/dashboard/LiveRequests';
+import UpdateProfile from "./components/dashboard/UpdateProfile";
+import PastRequests from './components/dashboard/PastRequests';
+
+// Importing Pages
+import HomePage from './pages/Homepage';
+import Dashboard from "./pages/Dashboard";
+
+const API = 'http://localhost:5000';
+
+
+const ROUTER = createBrowserRouter(
+  [
+    // Homepage paths
+    {
+      path: '/', element: <HomePage />,
+      children: [
+        { index: true, element: <LoginContainer API={API} /> },
+        { path: 'register', element: <RegisterContainer API={API} /> },
+      ]
+    },
+    // Dashboard paths
+    {
+      path: '/dashboard', element: <Dashboard API={API} />,
+      children: [
+        { index: true, element: <LiveRequests API={API} /> },
+        { path: "update-profile", element: <UpdateProfile API={API} /> },
+        { path: "past-requests", element: <PastRequests API={API} /> }
+      ]
+    }
+  ]
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <RouterProvider router={ROUTER}></RouterProvider>
     </div>
   );
 }
