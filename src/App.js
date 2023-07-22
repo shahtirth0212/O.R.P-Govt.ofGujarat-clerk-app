@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+// import { useContext, useEffect } from "react";
 // Importing Homepage components
 import LoginContainer from './components/homepage/LoginContainer';
 import RegisterContainer from './components/homepage/RegisterContainer';
@@ -7,10 +8,20 @@ import RegisterContainer from './components/homepage/RegisterContainer';
 import LiveRequests from './components/dashboard/LiveRequests';
 import UpdateProfile from "./components/dashboard/UpdateProfile";
 import PastRequests from './components/dashboard/PastRequests';
+import BirthVerification from './components/dashboard/verification/BirthVerification';
+import MarriageVerification from './components/dashboard/verification/MarriageVerification';
+import DeathVerification from './components/dashboard/verification/DeathVerification';
 
 // Importing Pages
 import HomePage from './pages/Homepage';
 import Dashboard from "./pages/Dashboard";
+import { useCallback, useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { SocketContext } from "./context/socketContext";
+import { CLERK_ACTIONS } from "./redux-store/slices/clerk-slice";
+// import { useDispatch } from "react-redux";
+// import { CLERK_ACTIONS } from './redux-store/slices/clerk-slice';
+// import { SocketContext } from "./context/socketContext";
 
 const API = 'http://localhost:5000';
 
@@ -31,13 +42,28 @@ const ROUTER = createBrowserRouter(
       children: [
         { index: true, element: <LiveRequests API={API} /> },
         { path: "update-profile", element: <UpdateProfile API={API} /> },
-        { path: "past-requests", element: <PastRequests API={API} /> }
+        { path: "past-requests", element: <PastRequests API={API} /> },
+        { path: "birth-verification", element: <BirthVerification API={API} /> },
+        { path: "marriage-verification", element: <MarriageVerification API={API} /> },
+        { path: "death-verification", element: <DeathVerification API={API} /> },
       ]
     }
   ]
 );
 
 function App() {
+  const socket = useContext(SocketContext)
+  const dispatch = useDispatch();
+  const handleGetSocketId = useCallback((id) => {
+    console.log(id)
+    dispatch(CLERK_ACTIONS.setSocket({ socket: id }))
+  }, [dispatch])
+  useEffect(() => {
+    socket.on('get_my_socket_id', handleGetSocketId)
+    return () => {
+      socket.off('disconnect');
+    }
+  }, [socket, handleGetSocketId]);
   return (
     <div>
       <RouterProvider router={ROUTER}></RouterProvider>

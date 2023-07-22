@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 
 import { CLERK_ACTIONS } from '../../redux-store/slices/clerk-slice';
-
+import { AUTH_ACTIONS } from '../../redux-store/slices/auth-slice';
 const EMAIL_VALIDATOR = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_VALIDATOR = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 
@@ -47,8 +47,9 @@ function LoginContainer({ API }) {
             if (data.err) {
                 setRes(data.msg)
             } else {
-                console.log(data);
+                console.log(data)
                 dispatch(CLERK_ACTIONS.setClerk({ clerk: data.data }));
+                dispatch(AUTH_ACTIONS.setToken({ token: data.data.token }))
                 NAVIGATE("/dashboard");
             }
         }
