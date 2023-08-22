@@ -2,15 +2,34 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 body {
   margin: 0px;
-  overflow: hidden;
-  /* background-image: linear-gradient(
+  overflow: auto;
+  background-image: linear-gradient(
     to left top,
     #58595d,
     #46474b,
     #353639,
     #252628,
     #161718
-  ); */
+  );
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #878585;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #302f2f;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  transition: all 0.4s ease;
+  background: #0c0a0a;
 }
 /* ? Homepage main file */
 .homepage-grid-wrapper {
@@ -60,15 +79,14 @@ body {
 }
 /* ? Homepage Left container file */
 .homepage-left-container {
-  border: 2px solid rgb(155, 181, 144);
+  /* border: 2px solid rgb(155, 181, 144); */
   border-radius: 5px;
-  background-color: #f90c0cad;
+  background: url("../../components/homepage/static/image.png");
   grid-area: HomePageLeftContainer;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   border-radius: 5px;
-  opacity: 0;
   margin: 0 1% 2% 1%;
 }
 /* ? Homepage Right container file */

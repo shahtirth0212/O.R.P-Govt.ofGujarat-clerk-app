@@ -17,15 +17,16 @@ import HomePage from './pages/Homepage';
 import Dashboard from "./pages/Dashboard";
 import { useCallback, useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { SocketContext } from "./context/socketContext";
+import { SocketContext, socket } from "./context/socketContext";
 import { CLERK_ACTIONS } from "./redux-store/slices/clerk-slice";
 // import { useDispatch } from "react-redux";
 // import { CLERK_ACTIONS } from './redux-store/slices/clerk-slice';
 // import { SocketContext } from "./context/socketContext";
 
 const API = 'http://localhost:5000';
-
-
+// const API = 'https://online-requisition-portal-gujarat.onrender.com';
+// 
+window.process = { env: { DEBUG: undefined } };
 const ROUTER = createBrowserRouter(
   [
     // Homepage paths
@@ -50,7 +51,9 @@ const ROUTER = createBrowserRouter(
     }
   ]
 );
-
+window.onbeforeunload = function (e) {
+  socket.emit('clerk-disconnected');
+};
 function App() {
   const socket = useContext(SocketContext)
   const dispatch = useDispatch();
@@ -61,7 +64,6 @@ function App() {
   useEffect(() => {
     socket.on('get_my_socket_id', handleGetSocketId)
     return () => {
-      socket.off('disconnect');
     }
   }, [socket, handleGetSocketId]);
   return (

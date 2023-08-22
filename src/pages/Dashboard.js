@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './css/dashboard.css';
 import { motion } from 'framer-motion';
+import '../UI/redButton.css';
 
 // import LeftNavBar from '../components/dashboard/layout/LeftNavBar';
 // import RightContainer from '../components/dashboard/layout/RightContainer';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CLERK_ACTIONS } from '../redux-store/slices/clerk-slice';
 
@@ -75,10 +76,20 @@ function Dashboard({ API }) {
     const toggle_verification = async () => {
         if (status === 'stop') {
             setStatus("start");
-            await axios.post(`${API}/clerk/toggle-verification-status/start`, { clerkId: ME._id, socketId: SOCKETID });
+            const ans = await axios.post(`${API}/clerk/toggle-verification-status/start`, { clerkId: ME._id, socketId: SOCKETID });
+            if (!ans.data.data.err) {
+                toast.success('Status changed !');
+            } else {
+                toast.error('Server error !');
+            }
         } else if (status === 'start') {
             setStatus("stop");
-            await axios.post(`${API}/clerk/toggle-verification-status/stop`, { clerkId: ME._id });
+            const ans = await axios.post(`${API}/clerk/toggle-verification-status/stop`, { clerkId: ME._id });
+            if (!ans.data.data.err) {
+                toast.success('Status changed !');
+            } else {
+                toast.error('Server error !');
+            }
         }
     }
     return (
@@ -108,12 +119,12 @@ function Dashboard({ API }) {
                     <motion.div initial={{ opacity: 0, y: '-100px' }}
                         animate={{ opacity: 1, y: '0px' }}
                         transition={{ duration: 1, delay: 0.6 }} style={{ display: "flex", flexDirection: "row" }}>
-                        <div>
+                        <div style={{ color: "wheat" }}>
                             <h4>{new Date().toDateString()}</h4>
                             <h4>{now}</h4>
                         </div>
-                        <div>
-                            <h3>Hello, {ME.aadharData.firstName} {ME.aadharData.lastName}</h3>
+                        <div style={{ marginLeft: "16vw", color: "wheat" }}>
+                            <h5>Hello, {ME.aadharData.firstName} {ME.aadharData.lastName}</h5>
                             <h4>{ME.aadharData.district} - {service} Service Department</h4>
                         </div>
                         <div>
@@ -122,26 +133,26 @@ function Dashboard({ API }) {
                                 animate={{ opacity: 1, x: '0px' }}
                                 transition={{ duration: 1, delay: 1 }}
                             >
-                                <Link to='/dashboard'>Live Requests</Link>
+                                {/* <Link to='/dashboard'><button disabled={BUSY}>Live Requests</button></Link> */}
                             </motion.span>
                             <motion.span
                                 initial={{ opacity: 0, x: '-300px' }}
                                 animate={{ opacity: 1, x: '0px' }}
                                 transition={{ duration: 1, delay: 1.1 }}
                             >
-                                <Link to='past-requests'>Previously verified</Link>
+                                {/* <Link to='past-requests'><button disabled={BUSY}>Previously verified</button></Link> */}
                             </motion.span>
                             <motion.span
                                 initial={{ opacity: 0, x: '-400px' }}
                                 animate={{ opacity: 1, x: '0px' }}
                                 transition={{ duration: 1, delay: 1.2 }}
                             >
-                                <Link to='update-profile'>Update profile</Link>
+                                {/* <Link to='update-profile'><button disabled={BUSY}>Update profile</button></Link> */}
                             </motion.span>
                         </div>
                     </motion.div>
                     <motion.div className='dashboard-container'>
-                        <button disabled={BUSY} onClick={toggle_verification}>{status === 'start' ? 'stop' : "start"} verification</button>
+                        <button style={{ marginTop: "2vh", width: "auto" }} className={status === 'start' ? 'red' : 'blue'} disabled={BUSY} onClick={toggle_verification}>{status === 'start' ? 'stop' : "start"} verification</button>
                     </motion.div>
                     <motion.div>
                         <Outlet />

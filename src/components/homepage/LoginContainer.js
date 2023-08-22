@@ -2,6 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
+import '../../UI/greenButton.css';
+import '../../UI/input.css';
+import '../../UI/blueButton.css';
+
 
 import { CLERK_ACTIONS } from '../../redux-store/slices/clerk-slice';
 import { AUTH_ACTIONS } from '../../redux-store/slices/auth-slice';
@@ -57,19 +61,23 @@ function LoginContainer({ API }) {
     return (
         <div className='homepage-login-container'>
             <div>
-                <h4>LOGIN</h4>
-                <Link to='register'><button>Register</button></Link>
+                <h4 style={{ color: "wheat", paddingBottom: "1vh", letterSpacing: "1px" }}>LOGIN</h4>
             </div>
-            <div>
-                <input onChange={e => setEmail(e.target.value)} type='email' placeholder='Email'></input>
-                {!emailVal && <span>Please enter email</span>}
+            <div style={{ display: "flex", gap: "2vh", flexDirection: "column" }}>
+                <Link to='register'><button className='green'>Don't have an account ?</button></Link>
+                <div>
+                    <input className={emailVal ? 'normal-tb' : 'red-tb'} onChange={e => setEmail(e.target.value)} type='email' placeholder='Email'></input>
+                </div>
+                {!emailVal && <span style={{ color: "red" }}>Please enter a valid email</span>}
                 {
                     emailVal &&
-                    <input onChange={e => setPassword(e.target.value)} type='password' placeholder='Password'></input>
+                    <div>
+                        <input className={passwordVal ? 'normal-tb' : 'red-tb'} onChange={e => setPassword(e.target.value)} type='password' placeholder='Password'></input>
+                    </div>
                 }
-                {emailVal && !passwordVal && <span>Please enter a valid pattern</span>}
-                {passwordVal && emailVal && <button onClick={login}>Login</button>}
-                {res.length > 0 && <span>{res}</span>}
+                {emailVal && !passwordVal && <span style={{ color: "red" }}>Please enter a valid pattern</span>}
+                {passwordVal && emailVal && <button className='blue' style={{ width: "6vw" }} onClick={login}>Login</button>}
+                {res.length > 0 && <span style={{ color: "red" }}>{res}</span>}
             </div>
         </div >
     )

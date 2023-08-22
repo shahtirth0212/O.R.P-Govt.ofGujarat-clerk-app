@@ -17,11 +17,11 @@ function Homepage() {
                 <LeftContainer />
                 <RightContainer />
             </div>
-            <div className='homepage-footer-image'
+            {/* <div className='homepage-footer-image'
                 initial={{ opacity: 0, y: '+100px' }}
                 animate={{ opacity: 1, y: '0px' }}
                 transition={{ duration: 1, delay: .2 }}
-            ></div>
+            ></div> */}
         </>
     )
 }

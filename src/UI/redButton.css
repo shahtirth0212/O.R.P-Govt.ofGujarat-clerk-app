@@ -1,0 +1,35 @@
+.red {
+  background-color: rgb(255, 80, 80);
+  border: 0px;
+  border-radius: 4px;
+  color: whitesmoke;
+  transition: background-color 0.1s ease-in;
+  padding: 0.3vh 1vw 0.3vh 1vw;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+}
+.red:hover {
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  background-color: rgb(86, 29, 29);
+}
+.red:active {
+  transform: scale(0.9);
+  transition: all 0.1s ease-in;
+  background-color: rgb(254, 254, 254);
+  border: 1px solid rgb(86, 29, 29);
+  color: rgb(86, 29, 29);
+}
+.red-disable {
+  border-radius: 4px;
+  background-color: rgb(191, 108, 108);
+  border: 1px solid rgb(95, 95, 95);
+  color: whitesmoke;
+  padding: 0.3vh 1vw 0.3vh 1vw;
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+}
+.red-disable:hover {
+  cursor: not-allowed;
+}

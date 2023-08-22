@@ -1,0 +1,14 @@
+.disabledBtn {
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  width: 100px;
+  height: 40px;
+  background-color: #8f8a8a;
+  color: rgb(0, 0, 0);
+  padding: 1% 2% 1% 2%;
+  letter-spacing: 2px;
+  border-radius: 10px;
+}
+.disabledBtn:hover {
+  cursor: not-allowed;
+}

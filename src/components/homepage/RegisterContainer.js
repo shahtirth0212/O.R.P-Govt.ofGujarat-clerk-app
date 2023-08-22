@@ -3,6 +3,7 @@ import React, { useEffect, useReducer, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 
+
 const PASSWORD_VALIDATOR = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/;
 const DISTRICTS = [
     'Ahmedabad',
@@ -168,78 +169,86 @@ function RegisterContainer({ API }) {
         console.log(data);
     }
     return (
-        <div>
-            <div className='homepage-login-container'>
-                <h4>REGISTER</h4>
-                <Link to='/'><button>Login</button></Link>
-                <div>
+        <div >
+            <div style={{}} className='homepage-login-container'>
+                <h4 style={{ color: "wheat", paddingBottom: "1vh", letterSpacing: "1px" }}>REGISTER</h4>
+                <Link to='/'><button className='green'>Already have an account ?</button></Link>
+                <div style={{ display: "flex", gap: "2vh" }}>
                     {/* Aadhar verification */}
-                    <div>
-                        <input
-                            disabled={myAadhar.aadharVerification.verified}
-                            type='text'
-                            placeholder="Aadhar number"
-                            onChange={e => {
+                    <div style={{ overflow: "auto", height: "48vh", display: "flex", gap: "2vw", flexDirection: "column" }}>
+                        <div style={{ margin: "1vw 0vw 0vw 0vw" }}>
+                            <input
 
-                                myDispatch({ type: "setAadhar", aadharNumber: e.target.value });
-                                myDispatch({ type: "setAadharVal" });
+                                className={myAadhar.aadharNumberVal ? 'normal-tb' : 'red-tb'}
+                                disabled={myAadhar.aadharVerification.verified}
+                                type='text'
+                                placeholder="Aadhar number"
+                                onChange={e => {
+
+                                    myDispatch({ type: "setAadhar", aadharNumber: e.target.value });
+                                    myDispatch({ type: "setAadharVal" });
+                                }
+                                }
+                            ></input>
+                            {myAadhar.aadharNumberVal && !myAadhar.aadharVerification.verified && <button style={{ width: "auto", marginLeft: "1vw" }} className='blue' onClick={verify_my_aadhar}>Verify</button>}
+                        </div>
+                        <div>
+                            {/* <div>
+                                {myAadhar.aadharOTP.sent !== null && !myAadhar.aadharVerification.verified && <span style={{ color: "white" }}>{myAadhar.aadharOTP.msg}</span>}
+                            </div> */}
+                            {myAadhar.aadharOTP.sent && !myAadhar.aadharVerification.verified
+                                &&
+                                <div style={{ color: "white" }}>
+                                    <span>{myAadhar.aadharOTP.msg}</span>
+                                    <input type='text' placeholder='OTP' onChange={e => setMyOTP(e.target.value)}></input>
+                                    {!myOTPVal && <span>Enter 4 digit OTP</span>}
+                                </div>
                             }
-                            }
-                        ></input>
-                        {myAadhar.aadharNumberVal && !myAadhar.aadharVerification.verified && <button onClick={verify_my_aadhar}>Verify</button>}
-                        {myAadhar.aadharOTP.sent !== null && !myAadhar.aadharVerification.verified && <span>{myAadhar.aadharOTP.msg}</span>}
-                        {myAadhar.aadharOTP.sent && !myAadhar.aadharVerification.verified
-                            &&
-                            <div>
-                                <span>{myAadhar.aadharOTP.msg}</span>
-                                <input type='text' placeholder='OTP' onChange={e => setMyOTP(e.target.value)}></input>
-                                {!myOTPVal && <span>Enter 4 digit OTP</span>}
-                            </div>
-                        }
+                        </div>
                         {myAadhar.aadharVerification.verified !== null
-                            && <span>{myAadhar.aadharVerification.msg}</span>
+                            && <span style={{ color: "red" }}>{myAadhar.aadharVerification.msg}</span>
                         }
                         {myAadhar.aadharVerification.verified
                             &&
-                            <span>{myAadharData.firstName} {myAadharData.middleName} {myAadharData.lastName}</span>
+                            <span style={{ color: "white" }}>{myAadharData.firstName} {myAadharData.middleName} {myAadharData.lastName}</span>
+                        }
+                        {/* Details */}
+                        {myAadhar.aadharVerification.verified &&
+                            <div>
+                                <select defaultValue={-1} onChange={e => setDistrict(e.target.value)}>
+                                    <option disabled value={-1}>District</option>
+                                    {DISTRICTS.map(district => <option key={district} value={district}>{district}</option>)}
+                                </select>
+                                {/* {!districtVal && <span>Please select a district</span>} */}
+                                <select defaultValue={-1} onChange={e => setService({ s: "", n: parseInt(e.target.value) })}>
+                                    <option disabled value={-1}>Select a service</option>
+                                    {SERVICES.map(s => <option key={s.n} value={s.n}>{s.s}</option>)}
+                                </select>
+                                {/* {!serviceVal && <span>Please select a service</span>} */}
+                            </div>
+                        }
+                        {
+                            districtVal && serviceVal &&
+                            <>
+                                <div>
+                                    <input className={passwordVal ? 'normal-tb' : 'red-tb'} onChange={e => setPassword(e.target.value)} placeholder='password' type='password'></input>
+                                    {
+                                        !passwordVal && <span style={{ color: "red" }}>Password must contain 8-12 chars and at least 1 special char,1 digit and 1 uppercase</span>
+                                    }
+                                </div>
+                                <div>
+                                    <input className={passwordVal ? 'normal-tb' : 'red-tb'} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm password' type='password'></input>
+                                    {
+                                        !confirmPasswordVal && <span style={{ color: "red" }}>Password must same</span>
+                                    }
+                                </div>
+                            </>
+                        }
+                        {
+                            myAadhar.aadharVerification.verified && districtVal && serviceVal && passwordVal && confirmPasswordVal &&
+                            <button onClick={register}>Register</button>
                         }
                     </div>
-                    {/* Details */}
-                    {myAadhar.aadharVerification.verified &&
-                        <div>
-                            <select defaultValue={-1} onChange={e => setDistrict(e.target.value)}>
-                                <option disabled value={-1}>District</option>
-                                {DISTRICTS.map(district => <option key={district} value={district}>{district}</option>)}
-                            </select>
-                            {!districtVal && <span>Please select a district</span>}
-                            <select defaultValue={-1} onChange={e => setService({ s: "", n: parseInt(e.target.value) })}>
-                                <option disabled value={-1}>Select a service</option>
-                                {SERVICES.map(s => <option key={s.n} value={s.n}>{s.s}</option>)}
-                            </select>
-                            {!serviceVal && <span>Please select a service</span>}
-                        </div>
-                    }
-                    {
-                        districtVal && serviceVal &&
-                        <>
-                            <div>
-                                <input onChange={e => setPassword(e.target.value)} placeholder='password' type='password'></input>
-                                {
-                                    !passwordVal && <span>Password must contain 8-12 chars and at least 1 special char,1 digit and 1 uppercase</span>
-                                }
-                            </div>
-                            <div>
-                                <input onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirm password' type='password'></input>
-                                {
-                                    !confirmPasswordVal && <span>Password must same</span>
-                                }
-                            </div>
-                        </>
-                    }
-                    {
-                        myAadhar.aadharVerification.verified && districtVal && serviceVal && passwordVal && confirmPasswordVal &&
-                        <button onClick={register}>Register</button>
-                    }
                 </div>
             </div>
         </div >

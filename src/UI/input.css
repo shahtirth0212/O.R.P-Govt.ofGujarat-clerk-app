@@ -1,0 +1,45 @@
+.normal-tb {
+  border: none;
+  border-radius: 5px;
+  padding: 4px;
+  background-color: rgb(247, 247, 247);
+  border: 1px solid rgb(0, 0, 0);
+  transition: all 0.1s ease-in-out;
+}
+.normal-tb:hover {
+  cursor: pointer;
+  background-color: rgb(211, 211, 211);
+}
+.normal-tb:focus {
+  transition: all 0.1s ease-in-out;
+  border: 1px solid rgb(78, 78, 78);
+  background-color: rgb(211, 211, 211);
+  outline: none;
+}
+.normal-tb-disable {
+  border: none;
+  border-radius: 5px;
+  padding: 4px;
+  background-color: rgb(202, 202, 202);
+  border: 1px solid rgb(0, 0, 0);
+  color: black;
+  transition: all 0.1s ease-in-out;
+}
+.normal-tb-disable:hover {
+  cursor: not-allowed;
+}
+
+.red-tb {
+  border: none;
+  border-radius: 5px;
+  padding: 4px;
+  background-color: rgb(236, 178, 178);
+  border: 1px solid rgb(65, 9, 9);
+  transition: all 0.1s ease-in-out;
+}
+.red-tb:focus {
+  transition: all 0.1s ease-in-out;
+  border: 1px solid rgb(216, 1, 1);
+  background-color: rgb(211, 211, 211);
+  outline: none;
+}

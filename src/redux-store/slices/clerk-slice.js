@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const CLERK_SLICE = createSlice({
     name: 'citizen',
-    initialState: { clerk: null, service: "", socket: null, busy: false, citizen_queue: [], current: null },
+    initialState: { clerk: null, service: "", socket: null, busy: false, citizen_queue: [], current: null, citizen: null },
     reducers: {
         setService(state, action) {
             state.service = action.payload.service;
@@ -18,6 +18,7 @@ const CLERK_SLICE = createSlice({
         },
         setBusyTrue(state) {
             state.busy = true;
+            console.log(state)
         },
         setBusyFalse(state) {
             state.busy = false;
@@ -33,6 +34,9 @@ const CLERK_SLICE = createSlice({
         },
         removeCurrent(state) {
             state.current = null;
+        },
+        setCitizen(state, action) {
+            state.citizen = action.payload.citizen;
         }
 
         // updateAppliedFor(state, action) {
